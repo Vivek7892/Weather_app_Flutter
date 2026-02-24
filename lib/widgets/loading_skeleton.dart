@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LoadingSkeleton extends StatelessWidget {
+  const LoadingSkeleton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.white.withOpacity(0.3),
-      highlightColor: Colors.white.withOpacity(0.5),
+      baseColor: Colors.white.withValues(alpha: 0.3),
+      highlightColor: Colors.white.withValues(alpha: 0.5),
       child: Column(
         children: [
           Container(

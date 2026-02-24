@@ -7,6 +7,8 @@ class StorageService {
   static const String _unitKey = 'temperature_unit';
   static const String _themeKey = 'theme_mode';
   static const String _lastCityKey = 'last_city';
+  static const String _managedCitiesKey = 'managed_cities';
+  static const String _rainAlertsEnabledKey = 'rain_alerts_enabled';
 
   // Save weather data
   Future<void> saveWeather(Weather weather) async {
@@ -58,5 +60,25 @@ class StorageService {
   Future<String?> getLastCity() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_lastCityKey);
+  }
+
+  Future<void> saveManagedCities(List<String> cities) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_managedCitiesKey, cities);
+  }
+
+  Future<List<String>> getManagedCities() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(_managedCitiesKey) ?? [];
+  }
+
+  Future<void> saveRainAlertsEnabled(bool enabled) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_rainAlertsEnabledKey, enabled);
+  }
+
+  Future<bool> getRainAlertsEnabled() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_rainAlertsEnabledKey) ?? true;
   }
 }

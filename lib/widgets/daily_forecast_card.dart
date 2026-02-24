@@ -1,53 +1,58 @@
 import 'package:flutter/material.dart';
-import '../models/forecast.dart';
+import '../models/daily_outlook.dart';
 import '../utils/weather_utils.dart';
 
 class DailyForecastCard extends StatelessWidget {
-  final Forecast forecast;
+  final DailyOutlook forecast;
   final bool isCelsius;
 
   const DailyForecastCard({
+    super.key,
     required this.forecast,
     required this.isCelsius,
   });
 
   @override
   Widget build(BuildContext context) {
+    final high = isCelsius
+        ? '${forecast.maxTemp.round()}°'
+        : '${((forecast.maxTemp * 9 / 5) + 32).round()}°';
+    final low = isCelsius
+        ? '${forecast.minTemp.round()}°'
+        : '${((forecast.minTemp * 9 / 5) + 32).round()}°';
+
     return Container(
-      margin: EdgeInsets.only(bottom: 12),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
+        color: Colors.white.withValues(alpha: 0.18),
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
       ),
       child: Row(
         children: [
           Expanded(
             flex: 2,
             child: Text(
-              WeatherUtils.formatDate(forecast.dateTime),
-              style: TextStyle(color: Colors.white, fontSize: 14),
+              WeatherUtils.formatDate(forecast.date),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
           Icon(
             WeatherUtils.getWeatherIcon(forecast.condition),
             color: Colors.white,
-            size: 24,
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 8),
           Text(
-            '${forecast.pop}%',
-            style: TextStyle(color: Colors.white70, fontSize: 12),
+            '${forecast.rainProbability}%',
+            style: TextStyle(color: Colors.white.withValues(alpha: 0.85)),
           ),
-          SizedBox(width: 16),
+          const Spacer(),
           Text(
-            isCelsius
-                ? '${forecast.tempMax.round()}° / ${forecast.tempMin.round()}°'
-                : '${((forecast.tempMax * 9 / 5) + 32).round()}° / ${((forecast.tempMin * 9 / 5) + 32).round()}°',
-            style: TextStyle(
+            '$high / $low',
+            style: const TextStyle(
               color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],
